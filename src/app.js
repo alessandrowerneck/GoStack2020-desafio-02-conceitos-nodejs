@@ -18,6 +18,7 @@ app.post("/repositories", (request, response) => {
   const { title, url, techs } = request.body;
 
   //criando uma nova instancia do repositorio, com os dados informados 
+  //creating new instance of repository, with given params
   const repository = {
     id: uuid(),
     title,
@@ -27,6 +28,7 @@ app.post("/repositories", (request, response) => {
   }
 
   //atualizando o array de repositorios com o novo repositorio criado
+  //updating the repositories' array with the new created repository
   repositories.push(repository);
 
   return response.json(repository);
@@ -38,16 +40,25 @@ app.put("/repositories/:id", (request, response) => {
   const { likes } = request.body;
 
   //procurando indice do repositorio solicitado na lista de repositorios
+  //looking for requested repository's index on repositories' array
   const repositoryIndex = repositories.findIndex(repository => repository.id === id);
   
   //procurando o repositorio solicitado na lista de repositorios
   //apenas para garantir 
   //que sua quantidade de likes nao foi alterada manualmente
+
+  //lookin for requested repository on repositories' array
+  //just to ensure that the 'likes params'
+  //wasn't updated manually
   const repositoryLikes = repositories.find(repository => repository.id === id);
  
   //caso seja enviado o campo likes no evento de put, 
   //já interrompe fluxo e retorna informando que 
   // nao se pode atualizar os likes manualmente
+
+  //case any 'likes params' was found on put event
+  //immediatelly stop the flow and return the message
+  //alerting that is not permitted to update the 'likes params' manually
   if (likes) {
     return response
       .status(400)
@@ -55,6 +66,7 @@ app.put("/repositories/:id", (request, response) => {
   }
 
   //caso o id nao seja encontrado na lista de repositorios
+  //in case of requested repository wasn't found on repositories' array
   if (repositoryIndex < 0) {
     return response
       .status(400)
@@ -62,6 +74,7 @@ app.put("/repositories/:id", (request, response) => {
   }
 
   //criando uma nova instancia do repositorio, com os dados informados 
+  //creating new repository, with given params
   const repository = {
     id,
     title, 
@@ -70,6 +83,7 @@ app.put("/repositories/:id", (request, response) => {
   };
 
   //atualizando repositorio informado na lista de repositorios 
+  //updating requested repository on repositories'array
   repositories[repositoryIndex] = repository;
 
   return response.status(200).json(repository);
@@ -80,9 +94,11 @@ app.delete("/repositories/:id", (request, response) => {
   const { id } = request.params;
 
   //procurando indice do repositorio solicitado na lista de repositorios
+  //looking for requested repository on repositories'array
   const repositoryIndex = repositories.findIndex(repository => repository.id === id);
 
   //caso o id nao seja encontrado na lista de repositorios
+  //in case of requested repository wasn't found on repositories'array
   if (repositoryIndex < 0) {
 
     return response
@@ -91,9 +107,11 @@ app.delete("/repositories/:id", (request, response) => {
   }
 
   //deletar o id da lista de repositorios
+  //delete requested repository from repositories' array
   repositories.splice(repositoryIndex, 1);
 
   //retornar mensagem de sucesso apos deletar repositorio informado
+  //return success message after delete requested repository
   return response
     .status(204)
     .json({ message: `Repository deleted! -> ID: [${id}]`});
@@ -104,16 +122,19 @@ app.post("/repositories/:id/like", (request, response) => {
   const { id } =  request.params;
 
   //procurando o repositorio solicitado na lista de repositorios
+  //looking for requested repository on repositories' array
   const repository = repositories.find(repository => repository.id === id);
 
   //caso o repositorio nao seja encontrado na lista de repositorios
+  //in case of requested repository wasn't found on repositories' array
   if (!repository) {
     return response
       .status(400)
       .json({ message: `Repository not found! -> ID: [${id}]`});
   }
 
-  //atualizando likes para o repositorio informado
+  ////atualizando likes para o repositorio informado
+  //updating likes for the requested repository
   repository.likes += 1;
 
   return response.json(repository);
