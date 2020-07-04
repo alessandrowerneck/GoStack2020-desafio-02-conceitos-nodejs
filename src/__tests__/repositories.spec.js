@@ -47,6 +47,11 @@ describe("Repositories", () => {
   });
 
   it("should be able to update repository", async () => {
+
+    console.log("");
+    console.log(`should be able to update repository`);
+    console.log("");
+    
     const repository = await request(app)
       .post("/repositories")
       .send({
@@ -77,6 +82,11 @@ describe("Repositories", () => {
   });
 
   it("should not be able to update repository likes manually", async () => {
+
+    console.log("");
+    console.log(`should not be able to update repository likes manually`);
+    console.log("");
+
     const repository = await request(app)
       .post("/repositories")
       .send({
@@ -97,6 +107,11 @@ describe("Repositories", () => {
   });
 
   it("should be able to delete the repository", async () => {
+    
+    console.log("");
+    console.log(`should be able to delete the repository`);
+    console.log("");
+
     const response = await request(app)
       .post("/repositories")
       .send({
@@ -115,6 +130,9 @@ describe("Repositories", () => {
   });
 
   it("should not be able to delete a repository that does not exist", async () => {
+    console.log("");
+    console.log(`should not be able to delete a repository that does not exist`);
+    console.log("");
     await request(app).delete(`/repositories/123`).expect(400);
   });
 });
