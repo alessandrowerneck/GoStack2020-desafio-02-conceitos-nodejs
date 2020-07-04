@@ -11,45 +11,21 @@ describe("Likes", () => {
         techs: ["Node", "Express", "TypeScript"]
       });
 
-    // console.log("");
-    // console.log(`1 -> repository.body.url:   [ ${repository.body.url} ]`);
-    // console.log(`1 -> repository.body.title: [ ${repository.body.title} ]`);
-    // console.log(`1 -> repository.body.techs: [ ${repository.body.techs} ]`);
-    // console.log(`1 -> repository.body.likes: [ ${repository.body.likes} ]`);
-
-    // console.log("");
-    // console.log(`2 -> repository.body.id: ${repository.body.id}`);
-    // console.log(`3 -> /repositories/${repository.body.id}/like`);
-    // console.log(`3 -> response.body.likes: [ ${response.body.likes} ]`);
-    
     let response = await request(app).post(
       `/repositories/${repository.body.id}/like`
     );
-
-    // console.log(`4 -> /repositories/${repository.body.id}/like`);
-    // console.log(`4 -> response.body.likes: [ ${response.body.likes} ]`);
 
     expect(response.body).toMatchObject({
       likes: 1
     });
 
-    // console.log(`5 -> /repositories/${repository.body.id}/like`);
-    // console.log(`5 -> response.body.likes: [ ${response.body.likes} ]`);
-
     response = await request(app).post(
       `/repositories/${repository.body.id}/like`
     );
 
-    // console.log(`6 -> /repositories/${repository.body.id}/like`);
-    // console.log(`6 -> response.body.likes: [ ${response.body.likes} ]`);
-
     expect(response.body).toMatchObject({
       likes: 2
     });
-
-    // console.log(`7 -> /repositories/${repository.body.id}/like`);
-    // console.log(`7 -> response.body.likes: [ ${response.body.likes} ]`);
-    // console.log("");
 
   });
 
